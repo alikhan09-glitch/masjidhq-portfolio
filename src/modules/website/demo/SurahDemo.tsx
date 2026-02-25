@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { SURAH_FATIHA } from "@/lib/surah";
+import { SURAH_FATIHA } from "../../../lib/surah";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 
 /* ================= TYPE FIX ================= */
