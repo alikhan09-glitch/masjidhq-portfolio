@@ -114,7 +114,7 @@ export default function SurahDemo() {
   const startListening = () => {
     if (permissionDenied) {
       alert(
-        "Microphone permission denied.\nSafari → Settings → Websites → Microphone → Allow."
+        "Microphone permission denied.\nSafari → Settings → Websites → Microphone → Allow.",
       );
       return;
     }
@@ -161,70 +161,72 @@ export default function SurahDemo() {
   /* ================= UI ================= */
 
   return (
-    <section className="mx-4 my-20 px-4">
-      <div className="bg-white rounded-3xl shadow-2xl p-10 border border-gray-100 mx-auto">
+    <>
+      <section className="w-full py-12 px-4 md:px-6 overflow-x-hidden">
+        <div className="max-w-5xl mx-auto w-full bg-white rounded-3xl shadow-2xl p-6 md:p-10 border border-gray-100">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">
+            Surah Recitation Practice
+          </h2>
 
-        <h2 className="text-3xl font-bold text-center mb-8">
-          Surah Recitation Practice
-        </h2>
+          <div className="bg-gradient-to-br from-emerald-50 to-white p-4 md:p-8 rounded-2xl text-center text-lg md:text-2xl leading-loose border shadow-inner break-words">
+            {displayWords.map((word, index) => (
+              <span
+                key={index}
+                className={`mx-1 transition-all duration-200 ${
+                  errorIndex === index
+                    ? "text-red-600 font-bold underline"
+                    : "text-gray-800"
+                }`}
+              >
+                {word}
+              </span>
+            ))}
+          </div>
 
-        <div className="bg-gradient-to-br from-emerald-50 to-white p-8 rounded-2xl text-center text-2xl leading-loose border shadow-inner">
-          {displayWords.map((word, index) => (
-            <span
-              key={index}
-              className={`mx-1 transition-all duration-200  ${
-                errorIndex === index
-                  ? "text-red-600 font-bold underline"
-                  : "text-gray-800"
-              }`}
+          <div className="flex justify-center mt-8 md:mt-10">
+            <button
+              onClick={isListening ? stopListening : startListening}
+              className={`relative flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 rounded-full text-white font-semibold shadow-lg transition-all duration-300
+            ${
+              isListening
+                ? "bg-red-600 hover:bg-red-700"
+                : "bg-emerald-600 hover:bg-emerald-700"
+            }
+          `}
             >
-              {word}
-            </span>
-          ))}
+              {isListening ? (
+                <>
+                  <FaMicrophoneSlash className="w-5 h-5" />
+                  Stop Recording
+                </>
+              ) : (
+                <>
+                  <FaMicrophone className="w-5 h-5" />
+                  Start Recitation
+                </>
+              )}
+
+              {isListening && (
+                <span className="absolute -inset-1 rounded-full border-2 border-red-400 animate-ping opacity-50"></span>
+              )}
+            </button>
+          </div>
+
+          <div className="mt-6 md:mt-8 text-center">
+            <p className="text-gray-500 text-sm">Live Recognized Text</p>
+            <p className="mt-2 md:mt-3 text-base md:text-lg text-gray-700 min-h-[40px] break-words">
+              {recognizedText || "Waiting for recitation..."}
+            </p>
+          </div>
+
+          {permissionDenied && (
+            <p className="text-red-600 text-sm mt-4 md:mt-6 text-center break-words">
+              Microphone permission denied. Please allow microphone from browser
+              settings.
+            </p>
+          )}
         </div>
-
-        <div className="flex justify-center mt-10">
-          <button
-            onClick={isListening ? stopListening : startListening}
-            className={`relative flex items-center gap-3 px-8 py-4 rounded-full text-white font-semibold shadow-lg transition-all duration-300
-              ${
-                isListening
-                  ? "bg-red-600 hover:bg-red-700"
-                  : "bg-emerald-600 hover:bg-emerald-700"
-              }
-            `}
-          >
-            {isListening ? (
-              <>
-                <FaMicrophoneSlash className="w-5 h-5" />
-                Stop Recording
-              </>
-            ) : (
-              <>
-                <FaMicrophone className="w-5 h-5" />
-                Start Recitation
-              </>
-            )}
-
-            {isListening && (
-              <span className="absolute -inset-1 rounded-full border-2 border-red-400 animate-ping opacity-50"></span>
-            )}
-          </button>
-        </div>
-
-        <div className="mt-8 text-center">
-          <p className="text-gray-500 text-sm">Live Recognized Text</p>
-          <p className="mt-3 text-lg text-gray-700 min-h-[40px]">
-            {recognizedText || "Waiting for recitation..."}
-          </p>
-        </div>
-
-        {permissionDenied && (
-          <p className="text-red-600 text-sm mt-6 text-center">
-            Microphone permission denied. Please allow microphone from browser settings.
-          </p>
-        )}
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
